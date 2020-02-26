@@ -69,3 +69,13 @@ Route::post('/post/{postId}/reply', 'PostController@createReply')
 Route::get('/post/{postId}/like', 'PostController@getLike')
     ->name('post.like')
     ->middleware('auth');
+/**
+ * Gallery
+ */
+Route::get('/gallery', 'GalleryController@getIndex')
+    ->name('gallery.index')
+    ->middleware('auth');
+
+Route::post('/gallery', 'GalleryController@createGallery')
+    ->name('gallery.create')
+    ->middleware('auth');

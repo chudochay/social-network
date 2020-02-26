@@ -33,47 +33,29 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
                     @if(Auth::check())
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('profile.index', [
+                                Auth::user()->id, Auth::user()->username
+                                ]) }}">
+                                {{ Auth::user()->name }}
+                            </a>
+                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">Home</a>
                         </li>
 
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown"
-                               class="nav-link dropdown-toggle"
-                               href="#"
-                               role="button"
-                               data-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false"
-                               v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-
-                                <a class="dropdown-item" href="{{ route('profile.index', [Auth::user()->id, Auth::user()->username]) }}">
-                                    Profile
-                                </a>
-
-                                <a class="dropdown-item" href="{{ route('friend.index') }}">
-                                    Friends
-                                </a>
-
-                                <a class="dropdown-item" href="#">
-                                    Gallery
-                                </a>
-
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                      style="display: none;">
-                                    @csrf
-                                </form>
-                            </div>
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                  style="display: none;">
+                                @csrf
+                            </form>
                         </li>
                     @else
                         <li class="nav-item">

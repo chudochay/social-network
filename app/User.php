@@ -20,31 +20,17 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
 
     protected $table='users';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
     protected $fillable = [
         'name', 'surname', 'username',
         'email', 'password', 'phone_number',
         'biography', 'birthdate',  'profile_picture_location'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -61,11 +47,6 @@ class User extends Authenticatable implements MustVerifyEmail
 //        return $this->hasMany(Comment::class);
 //    }
 
-    public function videos()
-    {
-        return $this->hasMany(Video::class);
-    }
-
     public function posts()
     {
         return $this->hasMany(Post::class, 'user_id');
@@ -74,6 +55,18 @@ class User extends Authenticatable implements MustVerifyEmail
     public function likes()
     {
         return $this->hasMany(Like::class, 'user_id');
+    }
+    
+    public function friends()
+    {
+        return $this
+            ->friendOfMine()
+            ->wherePivot('accepted', true)
+            ->get()
+            ->merge($this
+                ->friendOf()
+                ->wherePivot('accepted', true)
+                ->get());
     }
 
     public function friendOfMine()
@@ -95,17 +88,7 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
-    public function friends()
-    {
-        return $this
-            ->friendOfMine()
-            ->wherePivot('accepted', true)
-            ->get()
-            ->merge($this
-                ->friendOf()
-                ->wherePivot('accepted', true)
-                ->get());
-    }
+
 
     public function friendRequests()
     {

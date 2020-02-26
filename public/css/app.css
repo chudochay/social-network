@@ -10884,9 +10884,3 @@ a.text-dark:focus {
   }
 }
 
-.list-inline{
-    display: flex;
-}
-.list-inline li {
-    margin-left: 1%;
-}

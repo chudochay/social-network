@@ -91,6 +91,7 @@
                 </div>
                 <div class="d-flex justify-content-center">
                 <button class="btn btn-outline-success" type="submit" name="submit">Submit</button>
+                <button class="btn btn-outline-dark ml-1" onclick="history.back()">Go back</button>
                 </div>
             </div>
         </form>

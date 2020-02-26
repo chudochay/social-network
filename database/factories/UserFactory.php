@@ -19,9 +19,9 @@ use Illuminate\Support\Str;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
+        'name' => $faker->firstName,
         'surname' => $faker->lastName,
-        'username' => "-".$faker->lastName."-".$faker->lastName,
+        'username' => "-".$faker->firstName."-".$faker->lastName,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'profile_picture_location' =>
@@ -29,6 +29,10 @@ $factory->define(User::class, function (Faker $faker) {
             md5($faker->unique()->safeEmail).
             '?d=mm&s=40',
         'password' => '$2y$10$u.IQ6dnDfXFaZ2EN6/mcq.bojF0gCcJV4Q9cvcmchzpoqu4w0U7k2', // password
+        'phone_number' => $faker->phoneNumber,
+        'location' => $faker->city,
+        'biography' => $faker->realText(100),
+        'birthday' => $faker->dateTimeBetween('-60 years', '-18 years'),
         'remember_token' => Str::random(10),
     ];
 });

@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Post::class, function (Faker $faker) {
     return [
-        'body' => $faker->text($maxNbChars = 100),
+        'body' => $faker->text(100),
         'user_id' => 1,
     ];
 });
