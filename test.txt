@@ -1,0 +1,27 @@
+
+//        return redirect()
+//            ->route('profile.edit')
+//            ->with('info', 'Your profile has been updated');
+
+//    public function updateProfilePicture(Request $request)
+//    {
+//        $this->validate($request, [
+//        'profile_picture' => 'mimes:jpg,jpeg,bmp,png|size:2000',]);
+//
+//        $request->file('profile_picture')->store('pictures');
+//    }
+
+<a class="dropdown-item"
+href="{{ route('profile.index', [
+ 'id' => Auth::user()->id,
+ 'username' => Auth::user()->username
+ ]) }}"
+  >na Update profile
+
+//Route::post('/profile/{id}{username}', 'ProfileController@updatePicture')
+//    ->name('profile.updatePicture')->middleware('auth');
+
+
+    @if (Auth::user()->biography === null)
+                                <?php echo input()->get('biography'); ?>
+                            @endif
