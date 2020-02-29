@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
 
-    public function getProfile($id)
+    public function show($id)
     {
         $user = User::where('id', $id)->first();
         if (!$user) {
@@ -19,7 +20,7 @@ class ProfileController extends Controller
 
         $posts = $user->posts()->notReply()->get();
 
-        return view('profile.index')
+        return view('profile.show')
             ->with('user', $user)
             ->with('posts', $posts)
             ->with('authUserIsFriend', Auth::user()->isFriendsWith($user));
@@ -33,10 +34,10 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-//            'profile_picture' =>
-//                'mimetypes:image/png,
-//                image/bmp,image/jpeg,image/jpg|
-//                size:2000',
+            'file' =>
+                'mimetypes:image/png,
+                image/bmp,image/jpeg,image/jpg|
+                max:8000',
             'name' => 'required|alpha|max:50',
             'surname' => 'required|alpha|max:50',
             'email' => 'required|email|max:50',
@@ -44,30 +45,19 @@ class ProfileController extends Controller
             'biography' => 'nullable|max:200',
             'birthday' => 'nullable|date|after_or_equal:"1920-01-01 00:00:00"',
         ]);
-
-        //-----------------Update Profile picture
-//// Controller method
-//        $fileModel = File::whereId($id)->first();
-//
-//// Delete the file if we have one
-//        if ($fileModel->filename) {
-//            FileFacade::delete(public_path('files/' . $fileModel->filename));
-//        }
-//
-////
-//        $file = $request->file('filename');
-//        $clientName = $file->getClientOriginalName();
-//        $path = $file->move(public_path('files'), $clientName);
-//
-//        $fileModel->update(['filename' => $clientName]);
+        $file = $request->file;
+        $path = 'images/profile_pictures/';
+        Storage::put($path, $file);
         $id = Auth::user()->id;
         $user = User::find($id);
+        Storage::disk('public')->delete($user->profile_picture_location);
         $user->name = $request->input('name');
         $user->surname = $request->input('surname');
         $user->email = $request->input('email');
         $user->phone_number = $request->input('phone_number');
         $user->biography = $request->input('biography');
         $user->birthday = $request->input('birthday');
+        $user->profile_picture_location = $path . "" . $file->hashName();
         $user->save();
 
         return redirect()

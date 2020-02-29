@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class PostController extends Controller
 {
-    public function createPost(Request $request)
+    public function create(Request $request)
     {
         $this->validate($request, [
             'post'=>'required|max:1000',
@@ -19,11 +18,10 @@ class PostController extends Controller
         ]);
 
         return redirect()
-            ->route('home')
-            ->with('success', 'Post created.');
+            ->route('home');
     }
 
-    public function createReply(Request $request, $postId)
+    public function comment(Request $request, $postId)
     {
         $this->validate($request, [
             "reply-{$postId}"=>'required|max:1000',
@@ -52,10 +50,9 @@ class PostController extends Controller
         return redirect()->back();
     }
 
-    public function getLike($postId)
+    public function like($postId)
     {
         $post = Post::find($postId);
-
         if (!$post) {
             return redirect()->route('/');
         }

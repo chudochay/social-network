@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\ThumbnailService\SpatieThumbnailService;
+use App\Services\ThumbnailService\ThumbnailServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(ThumbnailServiceInterface::class, function(){
+            return new SpatieThumbnailService();
+        });
     }
 
     /**

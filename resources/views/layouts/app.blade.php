@@ -18,6 +18,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/gallery.css') }}" rel="stylesheet">
+
 </head>
 <body class="pt-lg-5">
 <div id="app">

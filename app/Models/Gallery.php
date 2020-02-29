@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use App\Album;
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Gallery extends Model
@@ -20,7 +19,7 @@ class Gallery extends Model
 
     public function images()
     {
-        return $this->hasMany(Image::class, 'album_id');
+        return $this->hasMany(Image::class, 'gallery_id');
     }
 
 }

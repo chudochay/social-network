@@ -10,22 +10,20 @@
         {{--    Update profile form--}}
         <form action="{{ route('profile.update', [
         Auth::user()->id, Auth::user()->username
-        ]) }}" method="POST">
+        ]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="">
                 {{--            Profile Picture--}}
                 <div class="form-group d-flex align-items-center  justify-content-between">
-                    <img src="{{ Auth::user()->profile_picture_location }}"
+                    <img src="{{ asset('storage/'.Auth::user()->profile_picture_location) }}"
                          width="150px"
                          height="auto"/>
                     <div class="d-flex flex-column">
-                        <label for="profile_picture" class="control-label">
+                        <label for="file" class="control-label">
                             Select new profile picture:
                         </label>
-                        <input type="file"
-                               name="profile_picture"
-                        >
+                        <input type="file" name="file">
                     </div>
                     @if ($errors->has('name'))
                         <span class="help-block">{{ $errors->first('name') }}</span>

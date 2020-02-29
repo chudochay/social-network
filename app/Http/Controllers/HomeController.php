@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use function foo\func;
 
 class HomeController extends Controller
 {
@@ -26,11 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $posts = Post::notReply()->where(function ($query) {
             return $query->where('user_id', Auth::user()->id)
                 ->orWhereIn('user_id', Auth::user()->friends()->pluck('id'));
         })->orderBy('created_at', 'desc')
             ->get();
-        return view('home')->with('posts', $posts);
+        return view('home')
+            ->with('posts', $posts)
+            ->with('user', $user);
     }
 }

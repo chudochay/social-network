@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
-use App\Album;
 use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
     protected $table = 'images';
     protected $fillable = [
-        'name', 'album_id', 'path'
+        'name', 'gallery_id', 'image_path', 'thumbnail_path'
     ];
 
-    public function album(){
-        return $this->belongsTo(Album::class, 'album_id');
+    public function gallery(){
+        return $this->belongsTo(Gallery::class, 'gallery_id');
     }
 
     public function likes()

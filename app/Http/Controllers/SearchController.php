@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use DB;
-use App\User;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
 
-    public function getResults(Request $request)
+    public function index(Request $request)
     {
         $query = $request->input('query');
 
@@ -16,10 +16,11 @@ class SearchController extends Controller
             return redirect()->route('home');
         }
 
-        $users = User::where(DB::raw("CONCAT(name, ' ', surname)"), 'LIKE', "%{$query}%")
+        $users = User::where(DB::raw("CONCAT(name, ' ', surname)"),
+            'LIKE', "%{$query}%")
             ->orWhere('surname', 'LIKE', "%{$query}%")
             ->get();
 
-        return view('search.results')->with('users', $users);
+        return view('search.index')->with('users', $users);
     }
 }

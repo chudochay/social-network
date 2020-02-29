@@ -29,17 +29,18 @@
                 @else
                     @foreach($posts as $post)
                         <div class="media">
-                            <a class="pull-left" href="{{ route('profile.index', [
+                            <a class="pull-left" href="{{ route('profile.show', [
                                         'id'=>$post->user->id,
                                         'username'=>$post->user->username
                                         ]) }}">
                                 <img class="media-object"
                                      alt="{{ $post->user->name }}"
-                                     src="{{ $post->user->profile_picture_location }}">
+                                     src="{{ asset('storage/'.$post->user->profile_picture_location) }}"
+                                     width="40px">
                             </a>
                             <div class="media-body">
                                 <h4 class="media-heading">
-                                    <a href="{{ route('profile.index', [
+                                    <a href="{{ route('profile.show', [
                                         'id'=>$post->user->id,
                                         'username'=>$post->user->username
                                         ]) }}">
@@ -64,7 +65,7 @@
                                 @foreach($post->replies as $reply)
                                     <div class="media">
                                         <a class="pull-left"
-                                           href="{{ route('profile.index', [
+                                           href="{{ route('profile.show', [
                                                     'id'=>$reply->user->id,
                                                     'username'=>$reply->user->username
                                                     ]) }}">
@@ -74,7 +75,7 @@
                                         </a>
                                         <div class="media-body">
                                             <h5 class="media-heading">
-                                                <a href="{{ route('profile.index', [
+                                                <a href="{{ route('profile.show', [
                                                         'id'=>$reply->user->id,
                                                         'username'=>$reply->user->username
                                                         ]) }}">
@@ -100,7 +101,7 @@
                                     </div>
                                 @endforeach
 {{--                                @if($authUserIsFriend || Auth::user()->id === $post->user->id)--}}
-                                <form role="form" action="{{route('post.reply',
+                                <form role="form" action="{{route('post.comment',
                                         ['postId' => $post->id])}}" method="post">
                                     @csrf
                                     <div

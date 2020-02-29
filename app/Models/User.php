@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Models\Comment;
 use App\Models\Follower;
@@ -9,7 +9,6 @@ use App\Models\Gallery;
 use App\Models\Image;
 use App\Models\Like;
 use App\Models\Post;
-use App\Models\Video;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,12 +18,12 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
-    protected $table='users';
+    protected $table = 'users';
 
     protected $fillable = [
         'name', 'surname', 'username',
         'email', 'password', 'phone_number',
-        'biography', 'birthdate',  'profile_picture_location'
+        'biography', 'birthdate', 'profile_picture_location'
     ];
 
     protected $hidden = [
@@ -35,11 +34,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function images() {
-        return $this->hasMany(Image::class);
-    }
-
-    public function galleries() {
+    public function galleries()
+    {
         return $this->hasMany(Gallery::class);
     }
 //
@@ -56,7 +52,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Like::class, 'user_id');
     }
-    
+
+//    public function friends(): UserFriends
+//    {
+//        return new UserFriends();
+//    }
+//
     public function friends()
     {
         return $this
@@ -79,7 +80,8 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
-    public function friendOf() {
+    public function friendOf()
+    {
         return $this->belongsToMany(
             User::class,
             'friends',
@@ -87,8 +89,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'friend_id'
         );
     }
-
-
 
     public function friendRequests()
     {
@@ -100,14 +100,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->friendOf()->wherePivot('accepted', false)->get();
     }
 
-    public function hasFriendRequestPending(User $user):bool
+    public function hasFriendRequestPending(User $user): bool
     {
         return $this->friendRequestsPending()->where('id', $user->id)->count();
     }
 
     public function hasFriendRequestReceived(User $user)
     {
-        return (bool) $this->friendRequests()->where('id', $user->id)->count();
+        return (bool)$this->friendRequests()->where('id', $user->id)->count();
     }
 
     public function addFriend(User $user)
@@ -127,18 +127,18 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('id', $user->id)
             ->first()->pivot
             ->update([
-            'accepted'=>true,
-        ]);
+                'accepted' => true,
+            ]);
     }
 
     public function isFriendsWith(User $user)
     {
-        return (bool) $this->friends()->where('id',$user->id)->count();
+        return (bool)$this->friends()->where('id', $user->id)->count();
     }
 
     public function hasLikedPost(Post $post)
     {
-        return (bool) $post->likes
+        return (bool)$post->likes
             ->where('user_id', $this->id)
             ->count();
     }

@@ -19,12 +19,19 @@
             @if(Auth::check())
                 <ul class="navbar-nav  ">
 
-                    <form class="row navbar-form ml-auto navbar-left" role="search"
-                          action="{{ route('search.results') }}">
+                    <form class="row navbar-form ml-auto navbar-left"
+                          role="search"
+                          action="{{ route('search.index') }}">
                         <div class="form-group my-auto">
-                            <input type="text" name="query" class="form-control" placeholder="Look for...">
+                            <input type="text"
+                                   name="query"
+                                   class="form-control"
+                                   placeholder="Look for...">
                         </div>
-                        <button type="submit" class="btn btn-outline-info ml-sm-1">Search</button>
+                        <button type="submit"
+                                class="btn btn-outline-info ml-sm-1">
+                            Search
+                        </button>
                     </form>
                     @endif
                 </ul>
@@ -35,7 +42,7 @@
                     @if(Auth::check())
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('profile.index', [
+                            <a class="nav-link" href="{{ route('profile.show', [
                                 Auth::user()->id, Auth::user()->username
                                 ]) }}">
                                 {{ Auth::user()->name }}
@@ -49,7 +56,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                     document.getElementById('logout-form').
+                                                     submit();">
                                 {{ __('Logout') }}
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
